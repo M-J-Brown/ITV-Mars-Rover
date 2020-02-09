@@ -39,27 +39,4 @@ class GridTest extends AnyWordSpec with Matchers {
       testGrid.resolve(3, 3) mustBe(0, 0)
     }
   }
-
-  "inRange" should {
-    "return false for negatives" in {
-      val testGrid = Grid(5, 5)
-      testGrid.inRange(-3, -3) mustBe false
-    }
-
-    "return false when one number is out of range" in {
-      val testGrid = Grid(5, 5)
-      testGrid.inRange(3, 9) mustBe false
-    }
-
-    "return true for (0,0)" in {
-      val testGrid = Grid(5, 5)
-      testGrid.inRange(0, 0) mustBe true
-    }
-
-    "return true for a valid in range" in {
-      val testGrid = Grid(5, 5)
-      testGrid.inRange(3, 3) mustBe true
-    }
-
-  }
 }

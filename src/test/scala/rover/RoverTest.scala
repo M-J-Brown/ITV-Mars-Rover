@@ -17,18 +17,29 @@ class RoverTest extends AnyWordSpec with Matchers {
       "commanded" should {
         "move forward" in {
           val testWorld = Grid(5, 5)
-          Rover(testWorld).command(MoveForward) mustBe Rover(North, (0, 1), testWorld)
+          Rover(testWorld).command(MoveForward) mustBe Right(Rover(North, (0, 1), testWorld))
         }
         "rotate clockwise" in {
           val testWorld = Grid(5, 5)
-          Rover(testWorld).command(RotateClockwise) mustBe Rover(East, (0, 0), testWorld)
+          Rover(testWorld).command(RotateClockwise) mustBe Right(Rover(East, (0, 0), testWorld))
         }
         "rotate anticlockwise" in {
           val testWorld = Grid(5, 5)
-          Rover(testWorld).command(RotateAntiClockwise) mustBe Rover(West, (0, 0), testWorld)
+          Rover(testWorld).command(RotateAntiClockwise) mustBe Right(Rover(West, (0, 0), testWorld))
+        }
+      }
+
+      "print" should {
+        "work" in {
+          //Prime candidate for cats.State!
+          val startingRover = Rover(Grid(5, 5))
+          for {
+            r1 <- startingRover.command(MoveForward)
+            r2 <- r1.command(RotateClockwise)
+            r3 <- r2.command(MoveForward)
+          } r3.print(Console.out)
         }
       }
     }
   }
-
 }

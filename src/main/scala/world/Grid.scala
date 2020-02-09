@@ -1,7 +1,7 @@
 package world
 
 import mouse.boolean.booleanSyntaxMouse
-import rover.Navigation.Position
+import rover.Navigation.{CoordinateOps, Coordinates}
 
 /**
  * A repeating grid of cells which may or may not be passable. Should be rectangular (i.e. all 2nd dimension vectors
@@ -17,18 +17,16 @@ case class Grid(underlying: Vector[Vector[Boolean]]) {
    * The grid repeats - what is the actual position you will be in given these coordinates (actually in range for the
    * underlying collection)
    */
-  def resolve(position: Position): Position = {
-    val caconicalX = if (width == 0) 0 else Math.floorMod(position._1, width)
-    val caconicalY = if (height == 0) 0 else Math.floorMod(position._2, height)
-    caconicalX -> caconicalY
+  def resolve(position: Coordinates): Coordinates = {
+    val canonicalX = if (width == 0) 0 else Math.floorMod(position.x, width)
+    val canonicalY = if (height == 0) 0 else Math.floorMod(position.y, height)
+    canonicalX -> canonicalY
   }
 
-  def isPassable(position: Position): Boolean = {
+  def isPassable(position: Coordinates): Boolean = {
     val (realX, realY) = resolve(position)
     underlying(realX)(realY)
   }
-
-  def inRange(position: Position): Boolean = resolve(position) == position
 }
 
 object Grid {

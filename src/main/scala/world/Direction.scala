@@ -42,5 +42,4 @@ object Direction {
 
     override def unit: (Int, Int) = (-1, 0)
   }
-
 }
